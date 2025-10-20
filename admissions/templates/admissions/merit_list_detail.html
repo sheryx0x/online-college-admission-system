@@ -1,0 +1,50 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Merit List for {{ merit_list.program }} - Batch {{ merit_list.merit_list_batch }}</h2>
+
+  <h3>Accepted Students</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Father's Name</th>
+        <th>Obtained Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% if merit_list.program == 'FA' %}
+      {% for application in merit_list.fa_applications.all %}
+      <tr>
+        <td>{{ application.user.username }}</td>
+        <td>{{ application.user.profile.father_name }}</td>
+        <td>{{ application.marks_obtained }}</td>
+      </tr>
+      {% endfor %}
+
+      
+      {% elif merit_list.program == 'FSC' %}
+      {% for application in merit_list.fsc_applications.all %}
+      <tr>
+        <td>{{ application.user.username }}</td>
+        <td>{{ application.user.profile.father_name }}</td>
+        <td>{{ application.ssc_marks_obtained }}</td>
+      </tr>
+      {% endfor %}
+
+      
+      {% elif merit_list.program == 'BS' %}
+      {% for application in merit_list.bs_applications.all %}
+      <tr>
+        <td>{{ application.user.username }}</td>
+        <td>{{ application.user.profile.father_name }}</td>
+        <td>{{ application.obtained_marks }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

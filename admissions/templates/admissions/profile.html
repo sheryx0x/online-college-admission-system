@@ -1,0 +1,171 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div class="profile-container">
+  <header class="profile-header">
+    <h1>Profile</h1>
+  </header>
+  
+  <div class="profile-content">
+    <div class="profile-info">
+      <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="profile-img">
+      <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+    </div>
+
+    <div class="personal-details">
+      <h3>Personal Information</h3>
+      <div class="details-table">
+        <div class="detail-row">
+          <span class="detail-label">Email:</span>
+          <span class="detail-value">{{ profile.user.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Father's Name:</span>
+          <span class="detail-value">{{ profile.father_name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date of Birth:</span>
+          <span class="detail-value">{{ profile.date_of_birth }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Address:</span>
+          <span class="detail-value">{{ profile.address }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone Number:</span>
+          <span class="detail-value">{{ profile.phone_number }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <a href="{% url 'edit_profile' %}" class="profile-edit-btn">Edit Profile</a>
+  </div>
+</div>
+
+<style>
+  .profile-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .profile-header h1 {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 10px;
+    margin: -20px -20px 20px -20px;
+    color: #333;
+    font-weight: 300;
+    text-align: center;
+  }
+
+  .profile-content {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  .profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #6b9976;
+    margin-bottom: 15px;
+    object-fit: cover;
+  }
+
+  .personal-details h3 {
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+  }
+
+  .details-table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(89, 89, 89, 0.2);
+  }
+
+  .detail-label {
+    color: #606060;
+    font-weight: 500;
+    min-width: 120px;
+  }
+
+  .detail-value {
+    color: #606060;
+    flex-grow: 1;
+    text-align: right;
+  }
+
+  .profile-edit-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b9976;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .profile-edit-btn:hover {
+    background: #53775c;
+  }
+
+  @media (max-width: 768px) {
+    .profile-container {
+      width: 100%;
+      padding: 15px;
+    }
+
+    .profile-header h1 {
+      font-size: 20px;
+      margin: -15px -15px 15px -15px;
+      padding: 15px;
+    }
+
+    .profile-content {
+      padding: 15px;
+    }
+
+    .detail-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .detail-value {
+      text-align: left;
+    }
+
+    .profile-edit-btn {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,719 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FGDC Admission System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        .hero-section {
+            background-image: url('{% static 'images/ship.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-slide {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .hero-slide:first-child {
+            opacity: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        #testimonials {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    
+        #testimonials.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        
+#about-college {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+#about-college.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+        
+#programs {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+#programs.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+        
+#process {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+#process.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+        
+#about {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+#about.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+    @media (max-width: 1024px) {
+        .hero-section {
+            height: 80vh; 
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            height: 90vh; 
+        }
+        h1.text-5xl {
+            font-size: 2rem;
+          }
+      
+          p.text-xl {
+            font-size: 1rem;
+          }
+
+           
+        h2.text-4xl {
+            font-size: 2rem;
+        }
+        p.text-xl {
+            font-size: 1rem;
+        }
+        p.text-lg {
+            font-size: 1rem;
+        }
+
+        
+        #process .grid {
+            grid-template-columns: 1fr; 
+        }
+
+          
+           h2.text-4xl {
+            font-size: 2rem;
+        }
+        p.text-lg {
+            font-size: 1rem;
+        }
+
+        
+        #contact form {
+            max-width: 100%; 
+        }
+
+        
+        #contact button {
+            padding: 12px 20px; 
+            font-size: 1rem; 
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section {
+            height: 90vh; 
+        }
+    }
+
+    
+    .hero-slide {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 1s ease-in-out;
+    }
+
+    
+    .hero-content {
+        position: relative;
+        margin-top:190px;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: slideUp 1s ease-out forwards;
+        animation-delay: 0.5s;
+    }
+
+
+    body {
+        font-family: 'Nunito', Arial, sans-serif; 
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #C9D6CC, #C9D6CC); 
+        color: #333; 
+    }
+    
+    
+    h1, h2, h3, h4, .header, .title {
+        font-family: 'Playfair Display', serif; 
+        font-weight: 700; 
+    }
+    
+    
+    p {
+        font-family: 'Nunito', Arial, sans-serif; 
+        font-size: 1em; 
+        line-height: 1.6; 
+        color: #333; 
+    }
+    
+    
+    a {
+        font-family: 'Nunito', Arial, sans-serif; 
+        text-decoration: none; 
+        color: #333; 
+    }
+    
+    
+    button, .btn {
+        font-family: 'Nunito', Arial, sans-serif; 
+        font-weight: 600; 
+        background-color: #4CAF50; 
+        color: white; 
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    button:hover, .btn:hover {
+        background-color: #45a049; 
+    }
+    
+    
+    
+    
+    label {
+        font-family: 'Nunito', Arial, sans-serif; 
+        font-weight: 600; 
+        color: #333; 
+        display: block; 
+        margin-bottom: 5px; 
+    }
+
+    
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    
+    <nav class="navbar fixed top-0 w-full z-10" style="background-color: #6b9976">
+
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            
+            <div>
+                <a href="/">
+                    <img src="{% static 'images/g41.png' %}" alt="FGDC Logo" class="h-10">
+                </a>
+            </div>
+
+            
+            <div class="hidden md:flex space-x-4">
+                <a href="#hero" class="text-white hover:text-gray-200">Home</a>
+                <a href="#about" class="text-white hover:text-gray-200">About</a>
+                <a href="#programs" class="text-white hover:text-gray-200">Programs</a>
+                <a href="#contact" class="text-white hover:text-gray-200">Contact</a>
+            </div>
+
+            
+            <div class="md:hidden">
+                <button id="hamburger" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        
+        <div id="mobileMenu" class="hidden md:hidden bg-gray-900">
+            <a href="#hero" class="block py-2 px-4 text-white hover:bg-gray-700">Home</a>
+            <a href="#about" class="block py-2 px-4 text-white hover:bg-gray-700">About</a>
+            <a href="#programs" class="block py-2 px-4 text-white hover:bg-gray-700">Programs</a>
+            <a href="#contact" class="block py-2 px-4 text-white hover:bg-gray-700">Contact</a>
+        </div>
+    </nav>
+    
+    
+    <section id="hero" class="hero-section">
+        <div class="hero-slide" style="background-image: url('{% static 'images/college.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image: url('{% static 'images/college2.jpg' %}');"></div>
+        <div class="hero-slide" style="background-image: url('{% static 'images/ship.jpg' %}');"></div>
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1 class="text-5xl font-bold mb-4">Welcome to FG College Admission System</h1>
+            <p style="color:white;" class="text-xl mb-8">Apply for your desired program easily and track your application status online.</p>
+            
+           
+            {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" 
+            class="bg-white text-blue-500 font-semibold py-2 px-6 rounded-full shadow-lg transition" 
+            style="transition: background-color 0.3s, color 0.3s; background-color: white; color: #3b82f6;"
+            onmouseover="this.style.backgroundColor='#6b9976'; this.style.color='white';"
+            onmouseout="this.style.backgroundColor='white'; this.style.color='#3b82f6';">
+             Go to Dashboard
+         </a>
+         
+            {% else %}
+            <a href="{% url 'login' %}" class="bg-white text-blue-500 font-semibold py-2 px-6 rounded-full shadow-lg transition" 
+            style="transition: background-color 0.3s, color 0.3s;"
+            onmouseover="this.style.backgroundColor='#6b9976'; this.style.color='white';"
+            onmouseout="this.style.backgroundColor='white'; this.style.color='#3b82f6';">
+             Login
+         </a>
+         
+            {% endif %}
+        </div>
+    </section>
+
+    
+    <section id="about" class="py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">About the Online Admission System</h2>
+            <p class="text-xl mb-4">The FGDC Admission System is designed to make the application process seamless, efficient, and accessible 24/7.</p>
+            <p class="text-lg">With our online system, you can easily apply for your chosen program, upload required documents, and track the status of your application in real-time.</p>
+        </div>
+    </section>
+    <script>
+        
+const aboutSection = document.getElementById('about');
+
+
+function isSectionInView(section) {
+    const rect = section.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)  
+
+    );
+}
+
+
+function handleScroll() {
+    if (isSectionInView(aboutSection)) {
+        aboutSection.classList.add('show');
+    }
+}
+
+
+window.addEventListener('scroll', handleScroll);
+    </script>
+
+  
+<section id="process" class="py-20">
+    <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-6">Application Process</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-2 flex items-center justify-center">
+                    Step 1 <i class="fas fa-arrow-right ml-2" style="margin-top: -2px;"></i>
+                </h3>
+                <p class="text-lg text-center">Create an account and log in.</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-2 flex items-center justify-center">
+                    Step 2 <i class="fas fa-arrow-right ml-2" style="margin-top: -2px;"></i>
+                </h3>
+                <p class="text-lg text-center">Fill in your personal and academic details.</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-2 flex items-center justify-center">
+                    Step 3 <i class="fas fa-arrow-right ml-2" style="margin-top: -2px;"></i>
+                </h3>
+                <p class="text-lg text-center">Upload the required documents.</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-2 flex items-center justify-center">
+                    Step 4 <i class="fas fa-arrow-right ml-2" style="margin-top: -2px;"></i>
+                </h3>
+                <p class="text-lg text-center">Submit your application and track its status.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    
+const processSection = document.getElementById('process');
+
+
+function isSectionInView(section) {
+    const rect = section.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    );
+}
+
+
+function handleScroll() {
+    if (isSectionInView(processSection)) {
+        processSection.classList.add('show');
+    }
+}
+
+
+window.addEventListener('scroll', handleScroll);
+</script>
+
+
+    
+    <section id="programs" class="bg-gray-200 py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Programs Offered</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4">FA Programs</h3>
+                    <p class="text-lg">Explore a variety of FA courses designed to prepare you for a successful career.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4">FSC Programs</h3>
+                    <p class="text-lg">Enhance your knowledge and skills with our diverse FSC programs.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4">BS Programs</h3>
+                    <p class="text-lg">Join our BS programs and contribute to groundbreaking discoveries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        
+const programsSection = document.getElementById('programs');
+
+
+function isSectionInView(section) {
+    const rect = section.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    );
+}
+
+
+function handleScroll() {
+    if (isSectionInView(programsSection)) {
+        programsSection.classList.add('show');
+    }
+}
+
+
+window.addEventListener('scroll', handleScroll);
+    </script>
+
+   
+    
+    <section id="about-college" class="py-20 bg-gray-100">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">About FG College</h2>
+            <p class="text-xl mb-4">Situated in the heart of Peshawar Cantonment, along the school road</p>
+            <p class="text-lg">FG Degree College for Men Peshawar came into existence in the year 1965 as a result of up-graduation
+                of Cantt Public School to the status of an intermediate college. The college was upgraded to Degree level
+                in 1979. The college has replaced 2-year BA/B.SC Programs with 4-years BS programs in two disciplines. i.e BS Computer and BS Political Science</p>
+                <p class="text-xl mb-4">It is affiliated with Peshawar as well as Federal Board at inter level and University of Peshawar has granted affiliation for degree classes</p>
+            </div>
+    </section>
+    <script>
+        
+const aboutCollegeSection = document.getElementById('about-college');
+
+
+function isSectionInView(section) {
+    const rect = section.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    );
+}
+
+
+function handleScroll() {
+    if (isSectionInView(aboutCollegeSection)) {
+        aboutCollegeSection.classList.add('show');
+    }
+}
+
+
+window.addEventListener('scroll', handleScroll);
+    </script>
+
+
+    <section id="testimonials" class="bg-gray-200 py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">What Our Students Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <p class="text-lg italic">"The FGDC Admission System made the entire process so easy! I was able to track my application status and received my acceptance without any hassle."</p>
+                    <p class="mt-4 font-semibold">- Obaid Khan, B.S Student</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <p class="text-lg italic">"I appreciated the convenience of applying online and being able to access everything 24/7. Highly recommend!"</p>
+                    <p class="mt-4 font-semibold">-  Abdullah, FSC Student</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <p class="text-lg italic">"The best part was the transparent tracking. I knew exactly where my application stood at every stage."</p>
+                    <p class="mt-4 font-semibold">- Kamran Ahmad, FA Student</p>
+                </div>
+            </div>
+        </div>
+      </section>
+    
+      <script>
+        const testimonialsSection = document.getElementById('testimonials');
+    
+        function isSectionInView(section) {
+            const rect = section.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)  
+    
+            );
+        }
+    
+        function  
+     handleScroll() {
+            if (isSectionInView(testimonialsSection)) {
+                testimonialsSection.classList.add('show');
+            }
+        }
+    
+        window.addEventListener('scroll', handleScroll);
+      </script>
+
+    
+    <section id="contact" class="py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Contact Us</h2>
+            <form action="#" method="POST" class="max-w-lg mx-auto">
+                <div class="mb-4">
+                    <input type="text" name="name" placeholder="Your Name" class="w-full p-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <input type="email" name="email" placeholder="Your Email" class="w-full p-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <textarea name="message" rows="5" placeholder="Your Message" class="w-full p-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-blue-600 transition duration-300">Send Message</button>
+            </form>
+            <div class="mt-8">
+                <p class="text-lg">Phone: +92 91 9211715</p>
+                <p class="text-lg">Email: fgdcmpc@gmail.com</p>
+                <p class="text-lg">Address: Near Fuji Foundation Hospital Peshawar Cantt</p>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto text-center">
+            <div class="mt-4">
+                <a href="#" class="block text-white mx-2 hover:text-gray-400">Home</a>
+                <a href="#" class="block text-white mx-2 hover:text-gray-400">Apply</a>
+                <a href="#" class="block text-white mx-2 hover:text-gray-400">Privacy Policy</a>
+            </div>
+            <p class="mt-4">&copy; 2024 FGDC Online Admission System. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    
+
+    <script>
+        
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+</html>
+ 
+ <style>
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+    }
+    
+    .slider {
+        position: relative;
+        max-width: 1000px;
+        margin: 50px auto;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    
+    .slide {
+        min-width: 100%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+    
+    .prev, .next {
+        cursor: pointer;
+        color: white;
+        font-size: 30px;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+    
+    .prev:hover, .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    
+</style>
+  
+
+  <script>
+    
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.opacity = i === index ? '1' : '0';
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000); 
+    showSlide(currentSlide);       
+</script>
+
+
+
+
+

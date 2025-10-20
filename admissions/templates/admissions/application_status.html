@@ -1,0 +1,176 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+  <div class="status-container">
+    <div class="status-card">
+      <h1 class="status-header">Your Admission Form Status</h1>
+
+      <form method="GET" class="filter-form">
+        <label for="program">Filter by Program:</label>
+        <select id="program" name="program">
+          <option value="">All Programs</option>
+          <option value="FA" {% if request.GET.program == 'FA' %}selected{% endif %}>FA</option>
+          <option value="FSC" {% if request.GET.program == 'FSC' %}selected{% endif %}>FSC</option>
+          <option value="BS" {% if request.GET.program == 'BS' %}selected{% endif %}>BS</option>
+        </select>
+        <button type="submit" class="filter-button">
+          Filter
+        </button>
+      </form>
+
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Subject</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in all_applications %}
+          <tr>
+            <td>{{ application.id }}</td>
+            <td>{{ application.program_selection }}</td>
+            <td>{{ application.status|title }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <style>
+    .status-container {
+      width: 100%;
+      margin: 40px auto;
+      min-height: 90vh;
+      display: flex;
+      justify-content: center;
+      padding: 0 20px;
+    }
+    
+    .status-card {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .status-header {
+      background-color: rgba(255, 255, 255, 0.2);
+      text-align: center;
+      color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      margin: -30px -30px 30px -30px;
+      font-size: 26px;
+      font-weight: 300;
+    }
+
+    .filter-form {
+      margin-bottom: 30px;
+    }
+
+    .filter-form label {
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .filter-form select {
+      width: 30%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      color: #333;
+      font-size: 16px;
+      appearance: none;
+    }
+
+    .filter-button {
+      background: #6b9976;
+      border: none;
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+    }
+
+    .filter-button:hover {
+      background: #5a8363;
+    }
+
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .status-table thead {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #333;
+    }
+
+    .status-table th, 
+    .status-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(89, 89, 89, 0.2);
+      font-size: 16px;
+    }
+
+    .status-table td {
+      color: #606060;
+    }
+
+    .status-table tr {
+      transition: background-color 0.3s;
+    }
+
+    .status-table tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .status-card {
+        padding: 20px;
+      }
+
+      .status-header {
+        font-size: 20px;
+        margin: -21px -20px 20px -20px;
+        padding: 15px;
+      }
+
+      .filter-form select {
+        width: 50%;
+      }
+
+      .status-table th,
+      .status-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filter-form select {
+        width: 100%;
+      }
+
+      .filter-button {
+        width: 100%;
+      }
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+    <div class="announcement-container">
+        <h2 class="announcement-header">Announcements</h2>
+
+        {% if announcements %}
+            <ul class="announcement-list">
+                {% for announcement in announcements %}
+                    <li class="announcement-item">
+                        <h3 class="announcement-title">{{ announcement.title }}</h3>
+                        <p class="announcement-content">{{ announcement.content }}</p>
+                        <p class="announcement-date">Posted on: {{ announcement.created_at|date:"Y-m-d" }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No announcements available.</p>
+        {% endif %}
+    </div>
+
+    <style>
+        .announcement-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            min-height: 75vh;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .announcement-header {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: 300;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 20px -30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .announcement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .announcement-item {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .announcement-title {
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .announcement-content {
+            color: #606060;
+            margin-bottom:30px;
+            margin-top:25px;
+        }
+
+        .announcement-date {
+            color: #333;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .announcement-container {
+                padding: 20px;
+                max-width: 100%;
+                margin: 20px auto;
+                border-radius:7px;
+            }
+
+            .announcement-header {
+                font-size: 18px;
+                margin-top:-21px;
+                border-radius:7px;
+            }
+
+            .announcement-item {
+                padding: 15px;
+                width: 125%;  
+                margin: 10px auto; 
+            }
+        }
+    </style>
+{% endblock %}
+
+

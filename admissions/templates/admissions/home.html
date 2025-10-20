@@ -1,0 +1,273 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+    
+    <div id="closedAdmissionsAlert" class="alert" style="display:none;"></div>
+
+    <div class="container">
+        <header>
+            <h1>Federal Government College Peshawar</h1>
+            <h3>Online Admission System</h3>
+            <p>Manage your college applications and profile effectively.</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card-container">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <div class="card">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-user-cog icon"></i>
+                            </div>
+                            <h2>Admin Dashboard</h2>
+                            <p>Manage applications and oversee the admission process.</p>
+                            <a href="{% url 'admin_dashboard' %}">Go to Admin Panel</a>
+                        </div>
+                    {% endif %}
+
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-edit icon"></i>
+                        </div>
+                        <h2>Apply for a Program</h2>
+                        <p>Start your journey towards your desired academic program.</p>
+
+                        {% for program in programs %}
+                            {% if program.is_open %}
+                                <a href="{% url program.name|lower|add:'_apply' %}">
+                                    Apply for {{ program.name }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-tasks icon"></i>
+                        </div>
+                        <h2>Check Status</h2>
+                        <p>Stay updated on the progress of your admission form.</p>
+                        <a href="{% url 'application_status' %}">View Status</a>
+                    </div>
+
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-user icon"></i>
+                        </div>
+                        <h2>View Profile</h2>
+                        <p>Update your profile information and preferences.</p>
+                        <a href="{% url 'profile' %}">Access Profile</a>
+                    </div>
+                {% else %}
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-sign-in-alt icon"></i>
+                        </div>
+                        <h2>Login Required</h2>
+                        <p>Please log in to access your dashboard.</p>
+                        <a href="{% url 'login' %}">Login</a>
+                    </div>
+                {% endif %}
+            </div> 
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const closedPrograms = [];
+
+            
+            {% for program in programs %}
+                {% if not program.is_open %}
+                    closedPrograms.push("{{ program.name }}");
+                {% endif %}
+            {% endfor %}
+
+            
+            if (closedPrograms.length > 0) {
+                const alertMessage = "Admissions for " + closedPrograms.join(', ') + " are currently closed. Please check back later.";
+                const alertDiv = document.getElementById('closedAdmissionsAlert');
+                alertDiv.textContent = alertMessage;
+                alertDiv.style.display = 'block'; 
+            }
+        });
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+
+        .alert {
+            margin: 10px auto;
+            width: 90%;
+            max-width: 1200px;
+            padding: 15px;
+            background-color: #6b9976;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: -0.9em;
+            color: #333;
+            font-weight: lighter;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #606060;
+        }
+
+        .dashboard {
+            margin-top: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px 20px 20px;
+            text-align: center;
+            width: 30%;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.31);
+        }
+
+        .card h2 {
+            font-size: 1.7em;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1em;
+            color: #606060;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #6b9976;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .card a:hover {
+            background-color: #53775c;
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #6b9976;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .card .icon {
+            font-size: 2em;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .card-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+                margin: 15px 0;
+                padding: 20px;
+                transition: all 0.3s ease;
+            }
+
+            .icon-wrapper {
+                width: 60px;
+                height: 60px;
+                top: -30px;
+            }
+
+            .card h2 {
+                font-size: 1.5em;
+            }
+
+            .card p {
+                font-size: 0.9em;
+            }
+
+            .card a {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
+            .alert {
+                font-size: 1em;
+            }
+        }
+    </style>
+{% endblock %}

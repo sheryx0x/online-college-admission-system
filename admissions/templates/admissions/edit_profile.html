@@ -1,0 +1,256 @@
+{% extends 'admissions/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<div class="profile-edit-container">
+  <header class="profile-edit-header">
+    <h1>Edit Profile</h1>
+  </header>
+
+  <div class="profile-edit-card">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div class="form-errors">
+        {% for error in form.non_field_errors %}
+          <p class="error-message">{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="profile-image-section">
+        <img id="profile-image" 
+             src="{% if form.profile_image.value %}{{ form.profile_image.value.url }}{% else %}{% static 'default_profile.png' %}{% endif %}" 
+             alt="Profile Image" 
+             class="profile-image-preview">
+        <div class="image-upload-wrapper">
+          <label for="id_profile_image" class="upload-label">
+            <img src="{% static 'images/edit_icon.png' %}" alt="Change Image" class="upload-icon">
+          </label>
+          <input type="file" id="id_profile_image" name="profile_image" class="hidden-upload">
+        </div>
+      </div>
+
+      <div class="form-fields">
+        <div class="form-column">
+          <div class="form-group">
+            <label for="{{ form.father_name.id_for_label }}">Father's Name</label>
+            {{ form.father_name }}
+            {% if form.father_name.errors %}
+              <div class="field-error">{{ form.father_name.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
+            {{ form.date_of_birth }}
+            {% if form.date_of_birth.errors %}
+              <div class="field-error">{{ form.date_of_birth.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-column">
+          <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+              <div class="field-error">{{ form.phone_number.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="field-error">{{ form.email.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-full-width">
+          <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">Address</label>
+            {{ form.address }}
+            {% if form.address.errors %}
+              <div class="field-error">{{ form.address.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <button type="submit" class="save-button">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script>
+  function previewImage() {
+    var img = document.getElementById('profile-image');
+    var input = document.getElementById('id_profile_image');
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        img.src = e.target.result;
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  document.getElementById('id_profile_image').addEventListener('change', previewImage);
+</script>
+<style>
+  .profile-edit-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .profile-edit-header h1 {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1.25rem;
+    font-size: 1.75rem;
+    border-radius: 10px;
+    margin: -1.5rem -1.5rem 2rem -1.5rem;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .profile-edit-card {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+  }
+
+  .profile-image-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-image-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #6b9976;
+    object-fit: cover;
+  }
+
+  .image-upload-wrapper {
+    position: relative;
+  }
+
+  .upload-icon {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .upload-icon:hover {
+    opacity: 0.8;
+  }
+
+  .hidden-upload {
+    display: none;
+  }
+
+  .form-fields {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-column {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-weight: 500;
+    color: #444;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #6b9976;
+  }
+
+  .save-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #6b9976;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .save-button:hover {
+    background: #597f63;
+  }
+
+  .form-errors {
+    background: rgba(255, 0, 0, 0.08);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+  }
+
+  .field-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .profile-edit-container {
+      width: 95%;
+      padding: 1rem;
+    }
+
+    .form-column {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-edit-header h1 {
+      font-size: 1.5rem;
+      margin: -1rem -1rem 1.5rem -1rem;
+    }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div style="width: 100%; display: flex; justify-content: center;">
+  <div style="width: 100%; max-width: 1000px; margin-top: 40px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);">
+    <header>
+        <h1 style="background-color: rgba(255, 255, 255, 0.2); text-align: center; color: #333; padding: 20px; border-radius: 10px; margin: -30px -30px 30px -30px; font-size: 26px; font-weight: lighter;">Quota-Based Applications</h1>
+    </header>
+
+    <form method="GET" action="{% url 'quota_based_applications' %}" style="margin-bottom: 20px; display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <div class="form-group" style="margin-bottom: 15px; flex: 1; min-width: 250px; margin-right: 10px;">
+            <label for="program" style="display: block; margin-bottom: 5px; color: #606060; font-size: 16px;">Program:</label>
+            <select name="program" id="program" class="responsive-field" required>
+                <option value="">Select Program</option>
+                <option value="FA">FA</option>
+                <option value="FSC">FSC</option>
+                <option value="BS">BS</option>
+            </select>
+        </div>
+    
+        <div class="form-group" style="margin-bottom: 15px; flex: 1; min-width: 250px; margin-right: 10px;">
+            <label for="subject" style="display: block; margin-bottom: 5px; color: #606060; font-size: 16px;">Subject:</label>
+            <select name="subject" id="subject" class="responsive-field" required>
+                <option value="">Select Subject</option>
+            </select>
+        </div>
+    
+        <div class="form-group" style="margin-bottom: 15px; flex: 1; min-width: 250px; margin-right: 10px;">
+            <label for="quota" style="display: block; margin-bottom: 5px; color: #606060; font-size: 16px;">Quota:</label>
+            <select  name="quota" class="responsive-field" required>
+                <option value="">Select Quota</option>
+                <option value="army_retired">Army Retired</option>
+                <option value="hafiz_e_quran">Hafiz-e-Quran</option>
+                <option value="sports">Sports</option>
+                <option value="disabled">Disabled</option>
+            </select>
+        </div>
+    
+        <div style="margin-top: 25px;">
+            <button type="submit" class="btn responsive-button">Filter Applications</button>
+        </div>
+    </form>
+
+    <div class="application-results">
+        {% if applications %}
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Subject</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in fa_applications %}
+                    <tr>
+                      <td>{{ application.id }}</td>
+                      <td>{{ application.user.first_name }} {{ application.user.last_name }}</td>
+                      <td>FA</td>
+                      <td><a href="{% url 'application_detail' application.id 'FA' %}">View Details</a></td>
+                    </tr>
+                    {% endfor %}
+
+                    {% for application in fsc_applications %}
+                    <tr>
+                      <td>{{ application.id }}</td>
+                      <td>{{ application.user.first_name }} {{ application.user.last_name }}</td>
+                      <td>FSC</td>
+                      <td><a href="{% url 'application_detail' application.id 'FA' %}">View Details</a></td>
+                    </tr>
+                    {% endfor %}
+
+                    {% for application in bs_applications %}
+                    <tr>
+                      <td>{{ application.id }}</td>
+                      <td>{{ application.user.first_name }} {{ application.user.last_name }}</td>
+                      <td>BS</td>
+                      <td><a href="{% url 'application_detail' application.id 'FA' %}">View Details</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No applications found for the selected filters.</p>
+        {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .responsive-field, .responsive-button {
+    width: 100%; 
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+  }
+
+  .responsive-button {
+    background: #6b9976;
+    color: white;
+    cursor: pointer;
+  }
+
+  
+  .responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .responsive-table th, .responsive-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    color: #333;
+  }
+
+  .responsive-table th {
+    font-weight: 600;
+  }
+
+  
+  @media (max-width: 768px) {
+    .responsive-field, .responsive-button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    table {
+      font-size: 14px !important;
+    }
+
+    table td, table th {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+    
+    const programSelect = document.getElementById('program');
+    const subjectSelect = document.getElementById('subject');
+
+    
+    const subjects = {
+        'FA': ['Arts', 'Humanities'],
+        'FSC': ['Medical', 'Computer Science', 'Political Science'],
+        'BS': ['Computer Science', 'Political Science', 'English', 'BBA Hons']
+    };
+
+    
+    programSelect.addEventListener('change', function () {
+        const selectedProgram = programSelect.value;
+        subjectSelect.innerHTML = '<option value="">Select Subject</option>';  
+
+        if (subjects[selectedProgram]) {
+            subjects[selectedProgram].forEach(function (subject) {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectSelect.appendChild(option);
+            });
+        }
+    });
+</script>
+{% endblock %}

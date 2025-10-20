@@ -1,0 +1,101 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+    <style>
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 604px;
+            min-height: 50vh;
+            width: 100%;
+            margin: 40px auto 0;
+        }
+
+        .login-header {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: lighter;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+
+        .login-label {
+            display: block;
+            color: #606060;
+            margin-top: 30px;
+        }
+
+        .login-input {
+            width: calc(50% - 20px);
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #333;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-links {
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .login-button {
+            width: calc(50% - 20px);
+            max-width: 300px;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #6b9976;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-button:hover {
+            background: #53775c;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+
+    <div class="login-container">
+        <h1 class="login-header">Admin Login</h1>
+
+        <form method="post" style="display: flex; flex-direction: column; align-items: center;">
+            {% csrf_token %}
+
+            <label for="{{ form.username.id_for_label }}" class="login-label">Username:</label>
+            <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" required class="login-input" value="{{ form.username.value|default_if_none:'' }}">
+
+            {% if form.username.errors %}
+                <p class="error-message">{{ form.username.errors.0 }}</p>
+            {% endif %}
+
+            <label for="{{ form.password.id_for_label }}" class="login-label">Password:</label>
+            <input type="password" id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" required class="login-input">
+
+            {% if form.password.errors %}
+                <p class="error-message">{{ form.password.errors.0 }}</p>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <p class="error-message">{{ form.non_field_errors.0 }}</p>
+            {% endif %}
+
+            <p class="login-links">Forgot Password? <a href="{% url 'password_reset' %}" style="text-decoration: none; color: #606060;">click here</a></p>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,317 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+    <style>
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 850px;
+            min-height: 20vh;
+            width: 100%;
+            margin: 40px auto;
+        }
+
+        .dashboard-header {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: lighter;
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 15px 15px 0 0;
+            margin: -30px -30px 25px -30px;
+        }
+
+        .dashboard-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-dashboard {
+            background: #6b9976;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            width: 28%;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .btn-dashboard:hover {
+            background: #53775c;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            padding: 25px;
+            color: #C5C6C7;
+            margin-top: 30px;
+        }
+
+        .card h3 {
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse; 
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 10px;
+            overflow: hidden; 
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+            color: #333; 
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.3); 
+            font-weight: bold; 
+        }
+
+        .table tr:hover {
+            background: rgba(255, 255, 255, 0.2); 
+        }
+
+        
+        .btn-toggle {
+            background: #6b9976; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-toggle:hover {
+            background: #53775c; 
+        }
+
+        .btn-toggle:focus {
+            outline: none; 
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 60%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+            text-align: left;
+            color: #606060;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #333;
+            font-size: 15px;
+        }
+
+        .alert-container {
+            margin: 20px 0;
+        }
+
+        
+        .alert {
+            margin: 10px auto;
+            width: 90%;
+            max-width: 1200px;
+            padding: 15px;
+            background-color: #6b9976;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        
+        .alert-success {
+            background-color: #6b9976; 
+            color: white;
+        }
+
+        
+        .alert-warning {
+            background-color: #FF9800; 
+            color: white;
+        }
+
+        
+        .alert-danger {
+            background-color: #F44336;  
+            color: white;
+        }
+
+        
+        .alert-info {
+            background-color: #2196F3;  
+            color: white;
+        }
+
+        
+        .alert .close-btn {
+            margin-left: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        
+        .alert {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert.hide {
+            opacity: 0;
+        }
+
+        .btn-submit {
+            width: 60%;
+            padding: 12px;
+            margin-top: 25px;
+            background: #6b9976;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #53775c;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                max-width: 90%;
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            .btn-dashboard {
+                width: 48%; 
+            }
+
+            .form-group {
+                width: 90%; 
+            }
+
+            .btn-submit {
+                width: 90%; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-dashboard {
+                width: 100%; 
+            }
+
+            .dashboard-container {
+                max-width: 100%;
+                padding: 29px;
+                margin: 20px auto;
+            }
+        }
+
+    </style>
+    {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="dashboard-container">
+        <h2 class="dashboard-header">Admin Dashboard</h2>
+
+        <div class="dashboard-buttons">
+            <a href="{% url 'announcement_list' %}" class="btn-dashboard">Make Announcements</a>
+            <a href="{% url 'all_applications' %}" class="btn-dashboard">All Forms</a>
+            <a href="{% url 'accepted_applications' %}" class="btn-dashboard">Accepted Forms</a>
+            <a href="{% url 'rejected_applications' %}" class="btn-dashboard">Rejected Forms</a>
+            <a href="{% url 'quota_based_applications' %}" class="btn-dashboard">Quota based Forms</a>
+            <a href="{% url 'create_merit_list' %}" class="btn-dashboard">Create Merit List</a>
+        </div>
+
+        <div class="program-control mt-5">
+            <h3>Manage Program Admissions</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Program</th>
+                        <th>Status</th>
+                        <th>Change Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                        <tr>
+                            <td>{{ program.name }}</td>
+                            <td>
+                                {% if program.is_open %}
+                                    Open
+                                {% else %}
+                                    Closed
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{% url 'toggle_admission_status' program.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-toggle">
+                                        {% if program.is_open %}
+                                            Close Admissions
+                                        {% else %}
+                                            Open Admissions
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var alerts = document.querySelectorAll('.alert');
+    
+            
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('hide');
+                }, 3000); 
+            });
+        });
+    </script>
+{% endblock %}

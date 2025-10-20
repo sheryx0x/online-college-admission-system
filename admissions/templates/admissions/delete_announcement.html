@@ -1,0 +1,13 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; min-height:71vh; padding: 20px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center;">
+    <h2 style="color: #333; margin-bottom: 20px;">Delete Announcement</h2>
+    <p style="color: #555; margin-bottom: 20px;">Are you sure you want to delete the announcement titled "<strong>{{ announcement.title }}</strong>"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">Delete</button>
+        <a href="{% url 'announcement_list' %}" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; text-decoration: none; margin-left: 10px; transition: background-color 0.3s;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

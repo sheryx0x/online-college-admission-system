@@ -1,0 +1,283 @@
+{% extends 'admissions/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <header>
+            <h2 class="header">Complete Your Profile</h2>
+        </header>
+
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="profile-card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                
+                <div class="profile-edit">
+                    <img id="profile-image"
+                         src="{% if user.profile.profile_image %}{{ user.profile.profile_image.url }}{% else %}{% static 'default_profile.png' %}{% endif %}"
+                         alt="Profile Image"
+                         class="profile-image-edit">
+                
+                    <div class="upload-btn-wrapper">
+                        <label for="id_profile_image">
+                            <img src="{% static 'images/edit_icon.png' %}" alt="Change Image" class="icon-button">
+                        </label>
+                        <input type="file" id="id_profile_image" name="profile_image" style="display: none;">
+                    </div>
+                    <div class="error-message" id="image-error-message" style="display: none;"></div>
+                    
+                    
+                    <script>
+                        function previewImage() {
+                            var img = document.getElementById('profile-image');
+                            var input = document.getElementById('id_profile_image');
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    img.src = e.target.result;
+                                };
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                        
+                        function validateForm(event) {
+                            var imgInput = document.getElementById('id_profile_image');
+                            var errorMessage = document.getElementById('image-error-message');
+                            
+                            
+                            errorMessage.style.display = 'none';
+                            errorMessage.textContent = '';
+                            
+                            
+                            if (!imgInput.files.length) {
+                                event.preventDefault(); 
+                                errorMessage.textContent = "Profile image is required.";
+                                errorMessage.style.display = 'block';
+                            }
+                        }
+                        
+                        document.getElementById('id_profile_image').addEventListener('change', previewImage);
+                        document.querySelector('form').addEventListener('submit', validateForm);
+                    </script>
+                </div>
+
+                
+                <div class="details">
+                    <div class="form-group half-width">
+                        <label for="{{ form.father_name.id_for_label }}">Father's Name</label>
+                        {{ form.father_name }}
+                        {% if form.father_name.errors %}
+                            <div class="error-message">{{ form.father_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
+                        {{ form.date_of_birth }}
+                        {% if form.date_of_birth.errors %}
+                            <div class="error-message">{{ form.date_of_birth.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="error-message">{{ form.phone_number.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="error-message">{{ form.email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="{{ form.address.id_for_label }}">Address</label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                        <div class="error-message">{{ form.address.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="edit-button">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <script>
+        function previewImage() {
+            var img = document.getElementById('profile-image');
+            var input = document.getElementById('id_profile_image');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        document.getElementById('id_profile_image').addEventListener('change', previewImage);
+    </script>
+
+    <style>
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: lighter;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+
+        header h2 {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 25px;
+            border-radius: 10px;
+            font-weight: lighter;
+        }
+
+        
+        .profile-edit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image-edit {
+            border-radius: 50%;
+            width: 119px;
+            height: 119px;
+            border: 2px solid #6b9976;
+            margin-right: 20px;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icon-button {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .icon-button:hover {
+            opacity: 0.8;
+        }
+
+        
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.half-width {
+            width: 48%;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #606060;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+        }
+
+        .edit-button {
+            width: 30%;
+            padding: 10px;
+            background: #6b9976;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-button:hover {
+            background-color: #53775c;
+        }
+
+        
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        
+        @media (max-width: 768px) {
+            .details {
+                flex-direction: column;
+            }
+
+            .form-group.half-width {
+                width: 100%;
+            }
+
+            .edit-button {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

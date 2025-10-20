@@ -1,0 +1,133 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+    <div class="announcement-container">
+        <h2 class="announcement-header">Announcements</h2>
+
+        <div class="create-announcement">
+            <a href="{% url 'create_announcement' %}" class="btn-dashboard">Create Announcement</a>
+        </div>
+
+        {% if announcements %}
+            <ul class="announcement-list">
+                {% for announcement in announcements %}
+                    <li class="announcement-item">
+                        <strong>{{ announcement.title }}</strong> - {{ announcement.created_at|date:"Y-m-d" }}
+                        <p>{{ announcement.content }}</p>
+                        <div class="announcement-actions">
+                            <a href="{% url 'edit_announcement' announcement.pk %}" class="btn-action">Edit</a>
+                            <a href="{% url 'delete_announcement' announcement.pk %}" class="btn-action" onclick="return confirm('Are you sure you want to delete this announcement?');">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No announcements available.</p>
+        {% endif %}
+    </div>
+
+    <style>
+        .announcement-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            min-height: 69vh;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+        }
+
+        .announcement-header {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: lighter;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 20px -30px;
+        }
+
+        .create-announcement {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .btn-dashboard {
+            background: #6b9976;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .announcement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .announcement-item {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .announcement-item p {
+            color: #606060;
+        }
+
+        .announcement-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            color: white;
+            text-decoration: none;
+            background: #6b9976;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        
+        @media (max-width: 768px) {
+            .announcement-container {
+                max-width: 90%;
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            .create-announcement {
+                text-align: center;
+            }
+
+            .announcement-actions {
+                justify-content: center;
+            }
+
+            .btn-action {
+                width: 48%; 
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .announcement-container {
+                margin-left: 0px;
+                max-width: 100%;
+                padding: 30px;
+            }
+
+            .btn-action {
+                margin-top: 20px;
+                width: 30%; 
+            }
+        }
+    </style>
+{% endblock %}

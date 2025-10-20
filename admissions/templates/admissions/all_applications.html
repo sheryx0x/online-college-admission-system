@@ -1,0 +1,155 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div style="width: 100%; display: flex; justify-content: center;">
+  <div style="width: 100%; max-width: 1000px; margin-top: 40px; background-color: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px); font-family: 'Poppins', sans-serif;">
+    <h1 style="background-color: rgba(255, 255, 255, 0.2); text-align: center; color: #333; padding: 20px; border-radius: 10px; margin: -30px -30px 30px -30px; font-size: 26px; font-weight: lighter;">All Admission Forms</h1>
+    <form method="GET" style="margin-bottom: 20px;">
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label for="program" style="display: block; margin-bottom: 5px; color: #606060; font-size: 16px;">Filter by Program</label>
+        <select id="program" name="program" class="responsive-field">
+          <option value="">All Programs</option>
+          <option value="FA" {% if request.GET.program == 'FA' %}selected{% endif %}>FA</option>
+          <option value="FSC" {% if request.GET.program == 'FSC' %}selected{% endif %}>FSC</option>
+          <option value="BS" {% if request.GET.program == 'BS' %}selected{% endif %}>BS</option>
+        </select>
+      </div>
+      <button type="submit" class="responsive-button">Filter</button>
+    </form>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+      <thead>
+        <tr style="background-color: rgba(255, 255, 255, 0.2); color: #333;">
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">ID</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Student</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Status</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Program</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in fa_applications %}
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px;">{{ application.id }}</td>
+          <td style="padding: 15px;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px;">{{ application.status|title }}</td>
+          <td style="padding: 15px;">FA</td>
+          <td style="padding: 15px;">
+            {% if application.status == 'submitted' %}
+            <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'FA' %}?status=accepted')"
+            style="color: blue;">Accept</a> |
+         <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'FA' %}?status=rejected')"
+            style="color: red;">Reject</a>
+            {% else %}
+              {{ application.status|title }}
+            {% endif %} |
+            <a href="{% url 'application_detail' application.id 'FA' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% for application in fsc_applications %}
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px;">{{ application.id }}</td>
+          <td style="padding: 15px;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px;">{{ application.status|title }}</td>
+          <td style="padding: 15px;">FSC</td>
+          <td style="padding: 15px;">
+            {% if application.status == 'submitted' %}
+            <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'FSC' %}?status=accepted')"
+            style="color: blue;">Accept</a> |
+         <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'FSC' %}?status=rejected')"
+            style="color: red;">Reject</a>
+            {% else %}
+              {{ application.status|title }}
+            {% endif %} |
+            <a href="{% url 'application_detail' application.id 'FSC' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% for application in bs_applications %}
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px;">{{ application.id }}</td>
+          <td style="padding: 15px;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px;">{{ application.status|title }}</td>
+          <td style="padding: 15px;">BS</td>
+          <td style="padding: 15px;">
+            {% if application.status == 'submitted' %}
+            <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'BS' %}?status=accepted')"
+            style="color: blue;">Accept</a> |
+         <a href="javascript:void(0);" onclick="confirmAction('{% url 'admin_update_application' application.id 'BS' %}?status=rejected')"
+            style="color: red;">Reject</a>
+            {% else %}
+              {{ application.status|title }}
+            {% endif %} |
+            <a href="{% url 'application_detail' application.id 'BS' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .responsive-field, .responsive-button {
+    width: 30%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+  }
+
+  .responsive-button {
+    background-color: #6b9976;
+    color: white;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .responsive-field, .responsive-button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+  
+  
+    table td, table th {
+      font-size: 14px;
+    }
+
+  table {
+    font-size: 14px !important;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 15px;
+    text-align: left;
+  }
+
+  th {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+  }
+
+  tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+</style>
+
+<script>
+  function confirmAction(url) {
+    if (confirm("Are you sure you want to perform this action?")) {
+      window.location.href = url;
+    }
+  }
+</script>
+{% endblock %}

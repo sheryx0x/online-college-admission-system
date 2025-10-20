@@ -1,0 +1,113 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div class="announcement-container">
+    <h2 class="announcement-title">Create Announcement</h2>
+    
+    <form method="post" class="announcement-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="content" class="content-label">Content:</label>
+            <textarea id="content" name="content" required class="form-control content-textarea"></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Create Announcement</button>
+    </form>
+</div>
+
+<style>
+    .announcement-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        min-height: 70vh;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+        margin: 40px auto;
+    }
+
+    .announcement-title {
+        background-color: rgba(255, 255, 255, 0.2);
+        font-weight: lighter;
+        color: #333;
+        padding: 10px 20px;
+        border-radius: 10px 10px 0 0;
+        margin: -30px -30px 20px -30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        color: #606060;
+    }
+
+    .form-control {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .content-textarea {
+        height: 150px;
+    }
+
+    .btn-primary {
+        background: #6b9976;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #5b8b66; 
+    }
+
+    
+    @media (max-width: 600px) {
+        .announcement-container {
+            max-width: 100%; 
+            padding: 20px;
+            margin: 20px auto;
+            position: relative;
+        }
+    
+        .announcement-title {
+            font-size: 1.2em;
+            padding: 10px;
+            width: calc(100% + 0px); 
+            position: absolute;
+            top: 29px; 
+            left: 29px; 
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+
+        .announcement-form {
+            padding-top: 60px; 
+        }
+    
+        .form-control {
+            padding: 8px;
+        }
+    
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+        }
+    }
+</style>
+{% endblock %}

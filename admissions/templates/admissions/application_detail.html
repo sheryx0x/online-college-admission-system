@@ -1,0 +1,342 @@
+{% extends 'admissions/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <header class="header">
+    <h2>Application Details</h2>
+  </header>
+
+  <div class="profile-section">
+    <div class="profile-image">
+      <img src="{{ application.user.profile.profile_image.url }}" alt="Profile Image">
+    </div>
+    <h4 class="applicant-name">{{ application.user.first_name }} {{ application.user.last_name }}</h4>
+    
+    <div class="personal-details">
+      <div class="details-row">
+        <div class="detail-column">
+          <p><strong>Father's Name:</strong> {{ application.user.profile.father_name }}</p>
+        </div>
+        <div class="detail-column">
+          <p><strong>Date of Birth:</strong> {{ application.user.profile.date_of_birth }}</p>
+        </div>
+      </div>
+      <div class="details-row">
+        <div class="detail-column">
+          <p><strong>Address:</strong> {{ application.user.profile.address }}</p>
+        </div>
+        <div class="detail-column">
+          <p><strong>Phone Number:</strong> {{ application.user.profile.phone_number }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="application-details">
+    <h3>Application Details</h3>
+    <hr>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Program Selected:</strong> {{ application.program_selection }}</p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Employment Status:</strong> {{ application.employment_status }}</p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>CNIC:</strong> {{ application.cnic }}</p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Domicile:</strong> {{ application.domicile }}</p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Religion:</strong> {{ application.religion }}</p>
+      </div>
+      <div class="detail-column">
+        <p><strong>SSC Registration Number:</strong> {{ application.ssc_registration_number }}</p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Last School Attended:</strong> {{ application.last_school_attended }}</p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Year of Passing:</strong> 
+          {% if application.year_of_passing %}
+            {{ application.year_of_passing }}
+          {% else %}
+            {{ application.year_of_passing_ssc }}  
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Marks Obtained:</strong> 
+          {% if application.marks_obtained %}
+            {{ application.marks_obtained }}
+          {% else %}
+            {{ application.ssc_marks_obtained }}  
+          {% endif %}
+        </p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Max Marks:</strong> 
+          {% if application.max_marks %}
+            {{ application.max_marks }}
+          {% else %}
+            {{ application.ssc_max_marks }}  
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Division/Grade:</strong> 
+          {% if application.div_grade %}
+            {{ application.div_grade }}
+          {% else %}
+            {{ application.ssc_div_grade }}  
+          {% endif %}
+        </p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Roll No:</strong> 
+          {% if application.roll_no %}
+            {{ application.roll_no }}
+          {% else %}
+            {{ application.ssc_roll_no }}  
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Board:</strong> 
+          {% if application.board %}
+            {{ application.board }}
+          {% else %}
+            {{ application.ssc_board }}  
+          {% endif %}
+        </p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Quota:</strong> {{ application.quota }}</p>
+      </div>
+    </div>
+    
+    {% if application.program_selection == 'BS' %}
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Marks Obtained:</strong> {{ application.bs_marks_obtained }}</p>
+      </div>
+      <div class="detail-column">
+        <p><strong>Max Marks:</strong> {{ application.bs_max_marks }}</p>
+      </div>
+    </div>
+    <div class="details-row">
+      <div class="detail-column">
+        <p><strong>Division/Grade:</strong> {{ application.bs_div_grade }}</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="documents-section">
+    <h3>Documents Submitted</h3>
+    <hr>
+    <p><strong>Attested Photocopy HSSC:</strong> <a href="{{ application.attested_photocopy_hssc.url }}">View Document</a></p>
+    <p><strong>Attested Photocopy Father's CNIC:</strong> <a href="{{ application.attested_photocopy_father_mother_cnic.url }}">View Document</a></p>
+    <p><strong>Attested Photocopy Candidate's CNIC:</strong> <a href="{{ application.attested_photocopy_candidate_cnic.url }}">View Document</a></p>
+    <p><strong>Provisional Character Certificate:</strong> <a href="{{ application.provisional_character_certificate.url }}">View Document</a></p>
+    <p><strong>Original Migration Certificate:</strong> <a href="{{ application.original_migration_certificate.url }}">View Document</a></p>
+    <p><strong>Passport Photographs:</strong> <a href="{{ application.passport_photographs.url }}">View Document</a></p>
+    <p><strong>Proof of Employment Status:</strong>
+      {% if application.proof_employment_status_parents %}
+        <a href="{{ application.proof_employment_status_parents.url }}">View Document</a>
+      {% else %}
+        No document uploaded.
+      {% endif %}
+    </p>
+    <p><strong>Affidavit District Court:</strong> <a href="{{ application.affidavit_district_court.url }}">View Document</a></p>
+    
+    {% if application.payment_screenshot %}
+      <p><strong>Payment Screenshot:</strong> <a href="{{ application.payment_screenshot.url }}">View Payment Screenshot</a></p>
+    {% else %}
+      <p><strong>Payment Screenshot:</strong> No screenshot uploaded.</p>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin: 0;
+    background-color: #f8f9fa;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header {
+    margin: -20px -20px 20px -20px;
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .header h2 {
+    color: #333;
+    font-size: 25px;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    font-weight: 300;
+    border-radius: 10px;
+  }
+
+  .profile-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .profile-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    padding: 3px;
+    margin-bottom: 9.9px;
+  }
+
+  .applicant-name {
+    color: #333;
+    font-size: 30px;
+    margin: 9.9px 0 20px;
+  }
+
+  .details-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .detail-column {
+    width: 48%;
+    text-align: left;
+  }
+
+  .application-details,
+  .documents-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    color: #333;
+    font-size: 1.3em;
+    margin: 0 0 15px;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 15px 0;
+  }
+
+  p {
+    margin: 8px 0;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  strong {
+    color: #333;
+    font-weight: 700;
+  }
+
+  a {
+    color: #606060;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .header h2 {
+      top: -15px;
+      margin-bottom: -15px;
+      padding: 15px;
+      font-size: 22px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .details-row {
+      flex-direction: column;
+    }
+
+    .detail-column {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .applicant-name {
+      font-size: 24px;
+    }
+
+    .profile-image img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header h2 {
+      font-size: 20px;
+      padding: 12px 15px;
+      top: -15px;
+      margin-bottom: 10px;
+    }
+
+    .applicant-name {
+      font-size: 22px;
+    }
+    
+    .container {
+      margin-top: 15px;
+    }
+  }
+</style>
+{% endblock %}

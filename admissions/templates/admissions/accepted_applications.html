@@ -1,0 +1,113 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div style="width: 100%; display: flex; justify-content: center;">
+  <div style="width: 100%; max-width: 1000px; margin-top: 40px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-family: 'Poppins', sans-serif;">
+
+    <h2 style="background-color: rgba(255, 255, 255, 0.2); text-align: center; color: #333; padding: 20px; border-radius: 10px; margin: -30px -30px 30px -30px; font-size: 26px; font-weight: lighter;">Accepted Admission Forms</h2>
+
+    <form method="GET" style="margin-bottom: 20px;">
+      <div style="margin-bottom: 15px;">
+        <label for="program" style="display: block; margin-bottom: 5px; color: #606060; font-size: 16px;">Filter by Program</label>
+        <select id="program" name="program" class="responsive-field">
+          <option value="">All Programs</option>
+          <option value="FA" {% if request.GET.program == 'FA' %}selected{% endif %}>FA</option>
+          <option value="FSC" {% if request.GET.program == 'FSC' %}selected{% endif %}>FSC</option>
+          <option value="BS" {% if request.GET.program == 'BS' %}selected{% endif %}>BS</option>
+        </select>
+      </div>
+      <button type="submit" class="responsive-button">Filter</button>
+    </form>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+      <thead>
+        <tr style="background-color: rgba(255, 255, 255, 0.2); color: #333;">
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">ID</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Student</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Status</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Program</th>
+          <th style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 16px; font-weight: 600; text-align: left;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in fa_applications %}
+        <tr style="transition: background-color 0.3s; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.id }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.status|title }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">FA</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">
+            <a href="{% url 'application_detail' application.id 'FA' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% for application in fsc_applications %}
+        <tr style="transition: background-color 0.3s; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.id }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.status|title }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">FSC</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">
+            <a href="{% url 'application_detail' application.id 'FSC' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% for application in bs_applications %}
+        <tr style="transition: background-color 0.3s; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.id }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.user.first_name }} {{ application.user.last_name }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">{{ application.status|title }}</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">BS</td>
+          <td style="padding: 15px; font-size: 16px; color: #606060;">
+            <a href="{% url 'application_detail' application.id 'BS' %}" style="color: #333;">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .responsive-field, .responsive-button {
+    width: 30%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+  }
+
+  .responsive-button {
+    width: 15%;
+    background: #6b9976;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px !important; 
+    }
+
+    table td,
+    table th {
+      font-size: 14px !important; 
+    }
+
+    .responsive-field,
+    .responsive-button {
+      width: 100% !important; 
+      margin-bottom: 10px;
+    }
+
+    .responsive-button {
+      font-size: 14px !important; 
+    }
+  }
+</style>
+
+{% endblock %}

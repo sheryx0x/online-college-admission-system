@@ -1,0 +1,314 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<style>
+
+.signup-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    top: 20px;
+}
+
+.signup-header {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: lighter;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 10px 10px 0 0;
+    margin: -20px -20px 20px -20px;
+    position: relative;
+    font-size: 2rem;
+}
+
+.input-group {
+    position: relative;
+    width: 100%; 
+    margin: 15px 0;
+}
+
+.login-icon {
+    position: absolute;
+    left: 10px;
+    color: #6b9976;
+    font-size: 1.2em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; 
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #6b9976;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.signup-button {
+    padding: 12px 25px;
+    background: #6b9976;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+    font-size: 1.1rem;
+    width: 60%;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.signup-button:hover {
+    background: #53775c;
+    transform: scale(1.05);
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+.signup-links {
+    color: #333;
+    margin-top: 10px;
+}
+
+.signup-links a {
+    color: #53775c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-links a:hover {
+    text-decoration: underline;
+}
+
+
+@media (min-width: 768px) {
+    .input-group {
+        width: 48%; 
+        margin: 15px 1%; 
+    }
+
+    .input-group:nth-child(odd) {
+        margin-left: 0; 
+    }
+
+    .input-group:nth-child(even) {
+        margin-right: 0; 
+    }
+}
+
+
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 15px;
+        width: 90%;
+        top: 40px;
+    }
+
+    .signup-header {
+        font-size: 1.5rem;
+        padding: 15px;
+        margin: -10px -10px 15px -10px; 
+    }
+
+    .input-group {
+        width: 100%; 
+    }
+
+    .signup-button {
+        width: 80%; 
+    }
+
+    
+    .login-input {
+        padding-left: 50px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 10px;
+        box-shadow: none; 
+        background: transparent; 
+        width: 100%; 
+        border-radius: 0; 
+        top: 40; 
+    }
+
+    .signup-header {
+        font-size: 1.3rem;
+        padding: 12px;
+    }
+
+    .signup-button {
+        width: 80%;
+        font-size: 1.1rem;
+    }
+
+    .login-input {
+        padding-left: 35px;
+        max-width:300px;
+    }
+
+    .signup-links {
+        font-size: 0.9rem;
+        
+    }
+
+    .signup-links a{
+        color:#6b9976;
+    }
+
+    .login-icon {
+        position: absolute;
+        left: 30px;
+        color: #6b9976;
+        font-size: 1.2em;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+}
+
+
+</style>
+
+<div class="signup-container">
+    <h1 class="signup-header">Sign Up</h1>
+
+    <form id="signupForm" method="post" action="{% url 'signup' %}" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        {% csrf_token %}
+
+        
+        <div style="display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap;">
+            <div class="input-group">
+                <i class="fas fa-user login-icon"></i>
+                <input type="text" id="first_name" name="first_name" required class="login-input" placeholder="First Name" value="{{ request.POST.first_name|default_if_none:'' }}">
+                <small class="error-message"></small>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user login-icon"></i>
+                <input type="text" id="last_name" name="last_name" required class="login-input" placeholder="Last Name" value="{{ request.POST.last_name|default_if_none:'' }}">
+                <small class="error-message"></small>
+            </div>
+        </div>
+
+        
+        <div style="display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap;">
+            <div class="input-group">
+                <i class="fas fa-user-circle login-icon"></i>
+                <input type="text" id="username" name="username" required class="login-input" placeholder="Username" value="{{ request.POST.username|default_if_none:'' }}">
+                <small class="error-message"></small>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope login-icon"></i>
+                <input type="email" id="email" name="email" required class="login-input" placeholder="Email" value="{{ request.POST.email|default_if_none:'' }}">
+                <small class="error-message"></small>
+            </div>
+        </div>
+
+        
+        <div style="display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap;">
+            <div class="input-group">
+                <i class="fas fa-lock login-icon"></i>
+                <input type="password" id="password1" name="password1" required class="login-input" placeholder="Password">
+                <small class="error-message"></small>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock login-icon"></i>
+                <input type="password" id="password2" name="password2" required class="login-input" placeholder="Confirm Password">
+                <small class="error-message"></small>
+            </div>
+        </div>
+
+        <p class="signup-links">Already have an account? <a style="text-decoration: none; color: #6b9976;" href="{% url 'login' %}">Login</a></p>
+
+        
+        <button type="submit" class="signup-button">Sign Up</button>
+
+        
+        {% if form.non_field_errors %}
+            <p class="error-message">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+    </form>
+</div>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function (event) {
+        let isValid = true;
+
+        
+        const errorMessages = document.querySelectorAll(".error-message");
+        errorMessages.forEach((error) => (error.textContent = ""));
+
+        
+        const firstName = document.getElementById("first_name");
+        if (firstName.value.trim() === "") {
+            firstName.nextElementSibling.textContent = "First Name is required.";
+            isValid = false;
+        }
+
+        
+        const lastName = document.getElementById("last_name");
+        if (lastName.value.trim() === "") {
+            lastName.nextElementSibling.textContent = "Last Name is required.";
+            isValid = false;
+        }
+
+        
+        const username = document.getElementById("username");
+        if (username.value.trim().length < 3) {
+            username.nextElementSibling.textContent = "Username must be at least 3 characters.";
+            isValid = false;
+        }
+
+        
+        const email = document.getElementById("email");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value.trim())) {
+            email.nextElementSibling.textContent = "Please enter a valid email address.";
+            isValid = false;
+        }
+
+        
+        const password1 = document.getElementById("password1");
+        if (password1.value.trim().length < 8) {
+            password1.nextElementSibling.textContent = "Password must be at least 8 characters.";
+            isValid = false;
+        }
+
+        
+        const password2 = document.getElementById("password2");
+        if (password2.value !== password1.value) {
+            password2.nextElementSibling.textContent = "Passwords do not match.";
+            isValid = false;
+        }
+
+        
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+{% endblock %}

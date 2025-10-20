@@ -1,0 +1,12 @@
+{% extends 'admissions/base_generic.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Create Merit List</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create Merit List</button>
+  </form>
+</div>
+{% endblock %}

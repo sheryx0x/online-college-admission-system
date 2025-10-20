@@ -1,0 +1,232 @@
+{% extends 'admissions/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<div class="merit-container">
+    <h2 class="merit-header">Create Merit List</h2>
+    <form method="POST" action="{% url 'create_merit_list' %}">
+      {% csrf_token %}
+      
+      <div class="form-field">
+        <label for="program">Program:</label>
+        <select name="program" id="program" required>
+            <option value="">Select Program</option>
+            <option value="FA">FA</option>
+            <option value="FSC">FSC</option>
+            <option value="BS">BS</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="subject">Subject:</label>
+        <select name="subject" id="subject" required>
+            <option value="">Select Subject</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="list_type">List Type:</label>
+        <select name="list_type" id="list_type" required>
+            <option value="open">Open Merit</option>
+            <option value="quota">Quota-Based</option>
+        </select>
+      </div>
+
+      <div id="quota-field" class="hidden-field">
+          <label for="quota">Quota:</label>
+          <select name="quota" id="quota">
+              <option value="army_retired">Army Retired</option>
+              <option value="hafiz_e_quran">Hafiz-e-Quran</option>
+              <option value="sports">Sports</option>
+              <option value="disabled">Disabled</option>
+          </select>
+      </div>
+
+      <div class="form-field">
+        <label for="available_seats">Available Seats:</label>
+        <input type="number" name="available_seats" min="1" required>
+      </div>
+
+      <div class="form-field">
+        <label for="percentage_cutoff">Percentage Cutoff:</label>
+        <input type="number" name="percentage_cutoff" step="0.01" required>
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="meritlist-button">Create merit list</button>
+      </div>
+    </form>
+</div>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .merit-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .merit-header {
+    color: #333;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 10px;
+    margin: -20px -20px 20px -20px;
+    font-weight: 300;
+  }
+
+  .form-field {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #606060;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  select, input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+
+  select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #6b9976;
+    box-shadow: 0 0 0 2px rgba(107, 153, 118, 0.2);
+  }
+
+  .hidden-field {
+    display: none;
+    margin-bottom: 15px;
+  }
+
+  .meritlist-button {
+    width: 100%;
+    padding: 12px 20px;
+    background: #6b9976;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 15px;
+  }
+
+  .meritlist-button:hover {
+    background: #53775c;
+  }
+
+  @media (max-width: 768px) {
+    .merit-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 0;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .merit-header {
+        margin: -15px -15px 20px -15px;
+        border-radius: 0;
+        width: calc(100% + 30px);
+    }
+
+    select, input[type="number"] {
+        font-size: 16px;
+        width: 80%;
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    label {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+  }
+
+    /* Add this to center the button too */
+    .meritlist-button {
+        width: 100%;
+        margin: 15px auto 0;
+    }
+
+  }
+
+  @media (max-width: 480px) {
+    .merit-container {
+      padding: 10px;
+    }
+
+    .merit-header {
+      margin: -10px -10px 15px -10px;
+      padding: 15px 10px;
+    }
+
+    .meritlist-button {
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  // JavaScript remains the same as in original
+  const programSelect = document.getElementById('program');
+  const subjectSelect = document.getElementById('subject');
+  const listTypeSelect = document.getElementById('list_type');
+  const quotaField = document.getElementById('quota-field');
+
+  const subjects = {
+      'FA': ['Arts', 'Humanities'],
+      'FSC': ['Medical', 'Computer Science', 'Political Science'],
+      'BS': ['Computer Science', 'Political Science', 'English', 'BBA Hons']
+  };
+
+  programSelect.addEventListener('change', function () {
+      const selectedProgram = programSelect.value;
+      subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+      
+      if (subjects[selectedProgram]) {
+          subjects[selectedProgram].forEach(subject => {
+              const option = document.createElement('option');
+              option.value = subject;
+              option.textContent = subject;
+              subjectSelect.appendChild(option);
+          });
+      }
+  });
+
+  listTypeSelect.addEventListener('change', function () {
+      quotaField.style.display = listTypeSelect.value === 'quota' ? 'block' : 'none';
+  });
+</script>
+{% endblock %}

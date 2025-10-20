@@ -1,0 +1,243 @@
+{% extends 'admissions/base_generic.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="header-title">Quota Based Merit Lists</h2>
+    <form method="GET" class="mb-4">
+        <div class="filter-section">
+            <label for="program">Filter by Program:</label>
+            <select id="program" name="program" class="form-control" onchange="fetchSubjects(this.value)">
+                <option value="">All Programs</option>
+                <option value="FA">FA</option>
+                <option value="FSC">FSC</option>
+                <option value="BS">BS</option>
+            </select>
+
+            <label for="subject">Filter by Subject:</label>
+            <select id="subject" name="subject" class="form-control"></select>
+
+            <label for="quota">Filter by Quota:</label>
+            <select id="quota" name="quota" class="form-control">
+                <option value="">All Quotas</option>
+                <option value="army_retired">Army Retired</option>
+                <option value="hafiz_e_quran">Hafiz-e-Quran</option>
+                <option value="disabled">Disabled</option>
+                <option value="sports">Sports</option>
+            </select>
+
+            <button type="submit" class="btn-submit mt-3">Filter</button>
+        </div>
+    </form>
+
+    {% for merit_list in merit_lists %}
+        <h3 class="merit-list-title">Merit List for {{ merit_list.program }} - {{ merit_list.subject }} - {{ merit_list.get_quota_display }}</h3>
+        <div class="table-section">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Father's Name</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if merit_list.fa_applications.all %}
+                            {% for application in merit_list.fa_applications.all %}
+                                <tr>
+                                    <td>{{ application.user.username }}</td>
+                                    <td>{{ application.user.profile.father_name }}</td>
+                                    <td>{{ application.marks_obtained }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if merit_list.fsc_applications.all %}
+                            {% for application in merit_list.fsc_applications.all %}
+                                <tr>
+                                    <td>{{ application.user.username }}</td>
+                                    <td>{{ application.user.profile.father_name }}</td>
+                                    <td>{{ application.marks_obtained }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if merit_list.bs_applications.all %}
+                            {% for application in merit_list.bs_applications.all %}
+                                <tr>
+                                    <td>{{ application.user.username }}</td>
+                                    <td>{{ application.user.profile.father_name }}</td>
+                                    <td>{{ application.marks_obtained }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% empty %}
+        <p>No merit lists available.</p>
+    {% endfor %}
+</div>
+
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto 0;
+    min-height: 84vh;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .header-title {
+    color: #333;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 10px;
+    margin: -20px -20px 20px -20px;
+    font-weight: lighter;
+  }
+
+  .merit-list-title {
+    color: #333;
+    font-size: 20px;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .filter-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    color: #606060;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  select {
+    width: 30%; 
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.3);
+    color: #333;
+    margin-bottom: 10px; 
+  }
+
+  .btn-submit {
+    width: 30%; 
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #6b9976;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn-submit:hover {
+    background-color: #53775c;
+  }
+
+  .table-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .table thead th {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #333;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table tbody td {
+    padding: 10px;
+    color: #606060;
+    border-bottom: 1px solid rgba(89, 89, 89, 0.2);
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    background-color: rgba(255, 255, 255, 0.3); 
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  
+  @media (max-width: 768px) {
+    select {
+      width: 100%; 
+    }
+
+    .btn-submit {
+      width: 100%; 
+      margin-top: 10px; 
+    }
+
+    .table-section {
+      padding: 10px; 
+    }
+
+    .table {
+      font-size: 14px; 
+    }
+
+    .table tbody td {
+      white-space: normal; 
+    }
+  }
+</style>
+
+<script>
+    function fetchSubjects(program) {
+        const subjectSelect = document.getElementById('subject');
+        subjectSelect.innerHTML = '';
+
+        let subjects = [];
+        if (program === 'FA') subjects = ['Arts', 'Humanities'];
+        if (program === 'FSC') subjects = ['Medical', 'Computer Science','Political Science'];
+        if (program === 'BS') subjects = ['Computer Science', 'BBA Hons','Political Science','English'];
+
+        
+        subjects.forEach(subject => {
+            const option = document.createElement('option');
+            option.value = subject;
+            option.textContent = subject;
+            subjectSelect.appendChild(option);
+        });
+    }
+</script>
+{% endblock %}
